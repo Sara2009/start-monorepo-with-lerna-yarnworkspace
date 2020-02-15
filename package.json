@@ -1,0 +1,50 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/config-lerna-scopes": "^8.2.0",
+    "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.1",
+    "husky": "^3.1.0",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.0.1"
+  },
+  "scripts": {
+    "clean": "lerna clean && lerna run clean",
+    "bootstrap": "lerna bootstrap",
+    "version": "lerna version --conventional-commits",
+    "commit": "git-cz",
+    "lint": "eslint \"packages/**/src/**/*.js\"",
+    "lint:fix": "eslint \"packages/**/src/**/*.js\" --fix",
+    "build": "lerna run --stream build",
+    "prepublish": "npm run build",
+    "publish": "lerna publish from-git"
+  },
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "packages/**/src/**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
